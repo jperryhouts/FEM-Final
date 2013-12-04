@@ -21,11 +21,18 @@ function [p,t] = refine(p,t,ref)
         if nargin == 0
             load('coordinates.dat');
             load('elements3.dat');
-            load('refine.dat');
             p = coordinates(:,2:3);
             t = elements3(:,2:4);
-            ref = false(size(t,1),1);
-            ref(refine) = true;
+            refi = false(size(t,1),1);
+            try
+                load('ref.dat');
+                refi(ref) = true;
+            end
+            ref = refi;
+        else
+            if nargin ~= 3
+                error('Wrong number of arguments')
+            end
         end
         if size(ref,1) ~= size(t,1)
             error('ref must be an Mx1 array');
