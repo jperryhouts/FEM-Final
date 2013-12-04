@@ -18,8 +18,14 @@ function [p,t] = refine(p,t,ref)
             7 5 8];
         ref = [0; 1; 0; 0; 0; 1];
     else
-        if nargin ~= 3
-            error('Wrong number of inputs');
+        if nargin == 0
+            load('coordinates.dat');
+            load('elements3.dat');
+            load('refine.dat');
+            p = coordinates(:,2:3);
+            t = elements3(:,2:4);
+            ref = false(size(t,1),1);
+            ref(refine) = true;
         end
         if size(ref,1) ~= size(t,1)
             error('ref must be an Mx1 array');
