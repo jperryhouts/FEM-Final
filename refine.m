@@ -1,3 +1,6 @@
+%% Author: Jonathan Perry-Houts <jperryh2@uoregon.edu>
+%% Created: 2013-12-03
+
 function [p,t] = refine(p,t,ref)
     % p   : Nx2 array of nodes' XY coordinates
     % t   : Mx3 array of elements as node indices
