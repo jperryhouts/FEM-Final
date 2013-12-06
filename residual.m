@@ -23,9 +23,7 @@ for j=1:numelt
     for k=1:3
         for l=k+1:3
             d=norm(lcoord(k,:)-lcoord(l,:));
-            if d > h
-                h=d;
-            end
+            h=max(h,d);
         end
     end
               
