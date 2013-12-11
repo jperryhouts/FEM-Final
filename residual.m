@@ -1,4 +1,4 @@
-function [ res ] = residual( f, K, u, coordinates, els )
+function [ res ] = residual( f, K, u, p, t )
     %RESIDUAL Summary of this function goes here
     %   Detailed explanation goes here
 
