@@ -3,9 +3,21 @@
 %%          Timothy Costa <costa@math.oregonstate.edu>
 %% Created: 2013-12-11
 
-function [p,t] = remesh(f, K, u, p, t)
+% p is the new dof locations
+% t is the new set of elements
+% err is an a-posteriori error estimate of the initial mesh
+
+%f is a funciton handle for the forcing fucntion of the form f=@(x,y)
+%K is a function handle for the local diffusivity of teh form K= @(x,y)
+%u is a computed finite element solution
+%p is an array dof X 2 where p(i,j) is the jth coordinate of global dof i
+%t is a local to global map elements X 3 where t(i,j) is global dof of
+%element i's local dof j
+
+function [p,t,err] = remesh(f, K, u, p, t)
     % Calculate residual
     res = residual(f, K, u, p, t);
+    err=sum(res);
 
     % Get locations of elements in the highest 10% residual
     [B,IX] = sort(res, 'descend');
