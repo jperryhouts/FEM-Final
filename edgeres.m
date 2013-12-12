@@ -19,7 +19,7 @@ function [ faceres ] = edgeres( K, u,coordinates,els, edges )
 
 % output: faceres(j) is the
 
-numedge = size(edges(:,1));
+numedge = size(edges(:,1),1);
 faceres=zeros(size(els,1),1);
 
 % loop over edges
@@ -29,10 +29,11 @@ for j = 1:numedge
   ldof2=els(edges(j,2),:);
   p1=coordinates(ldof1,:);
   p2=coordinates(ldof2,:);
+  ind1=zeros(3,1);
 
   ind1(1)=find(ldof1==edges(j,3));
   ind1(2)=find(ldof1==edges(j,4));
-  ind1(3)=find(ldof1~=edges(j,3)&&ldof1~=edges(j,4));
+  ind1(3)=find(ldof1~=edges(j,3)&ldof1~=edges(j,4));
 
   [Q,R]=qr([p1(ind1(2),:).'-p1(ind1(1),:).', p1(ind1(3),:).'-p1(ind1(1),:).']);
   n1=-Q(:,2);
@@ -41,12 +42,13 @@ for j = 1:numedge
   coefs1 = ([ones(3,1), p1]\eye(3))*diag(u(ldof1)); %get local basis functions
   coefs2 = ([ones(3,1), p2]\eye(3))*diag(u(ldof2)); %get local basis functions
   
-  grad1=sum(coefs1(:,2:3).'); %Compute local gradient on element 1
-  grad2=sum(coefs2(:,2:3).'); %Compute local gradient on element 2
+  grad1=sum(coefs1(2:3,:).'); %Compute local gradient on element 1
+  grad2=sum(coefs2(2:3,:).'); %Compute local gradient on element 2
 
-  m1=.5*(p1(ind(1),:)+p1(ind(2),:)); %compute midpoint of edge
-  s=norm(p1(ind(1),:)-p2(ind(2),:)); %computes side length for L2 error
+  m1=.5*(p1(ind1(1),:)+p1(ind1(2),:)); %compute midpoint of edge
+  s=norm(p1(ind1(1),:)-p2(ind1(2),:)); %computes side length for L2 error
   
+
 
   kdivun1 = grad1*n1; %compute normal derivatives
   kdivun2 = grad2*n2; 
